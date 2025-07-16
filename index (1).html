@@ -1,0 +1,329 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Desperte o Guerreiro - eBook Transformador</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@700&display=swap" rel="stylesheet">
+  <style>
+    /* Reset básico */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Roboto Condensed', 'Arial', sans-serif;
+      background-color: #000;
+      color: #eee;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+      padding: 40px 20px;
+    }
+
+    /* Container principal */
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    h1 {
+      font-size: 4rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      text-align: center;
+      color: #8b0000;
+      text-shadow: 0 0 8px rgba(139, 0, 0, 0.6);
+    }
+
+    p.subtitle {
+      font-size: 1.5rem;
+      text-align: center;
+      margin-bottom: 50px;
+      font-weight: 600;
+      color: #bbb;
+      letter-spacing: 0.5px;
+    }
+
+    /* Texto normal */
+    h2 {
+      font-weight: 700;
+      margin-top: 40px;
+      margin-bottom: 15px;
+      font-size: 2rem;
+      border-bottom: 3px solid #8b0000;
+      padding-bottom: 8px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    p {
+      font-size: 1.2rem;
+      line-height: 1.6;
+      color: #ddd;
+      margin-bottom: 20px;
+    }
+
+    ul, ol {
+      margin-left: 20px;
+      margin-bottom: 20px;
+      font-size: 1.2rem;
+      line-height: 1.7;
+      color: #ddd;
+    }
+
+    ul li, ol li {
+      margin-bottom: 12px;
+    }
+
+    /* Botão estiloso com efeito de luz piscando */
+    .button-buy {
+      display: block;
+      width: 100%;
+      max-width: 350px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #8b0000;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.5rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #fff;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      box-shadow: 0 0 20px rgba(139, 0, 0, 0.7);
+      animation: pulseGlow 2s ease-in-out infinite;
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 20px rgba(139, 0, 0, 0.7); }
+      50% { box-shadow: 0 0 40px rgba(139, 0, 0, 1); }
+    }
+
+    .button-buy:hover {
+      background: #6b1a1a;
+      transform: scale(1.05);
+    }
+
+    /* Depoimentos */
+    .testimonial {
+      font-style: italic;
+      margin: 20px 0;
+      padding: 15px;
+      border-left: 4px solid #8b0000;
+      background: rgba(139, 0, 0, 0.1);
+      color: #ccc;
+      font-size: 1.1rem;
+    }
+
+    /* Perguntas frequentes */
+    .faq p strong {
+      color: #fff;
+      font-weight: 700;
+    }
+    .faq p {
+      margin-bottom: 15px;
+      color: #ccc;
+      font-size: 1.1rem;
+    }
+
+    /* Frases impactantes no fundo */
+    .background-quotes {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      user-select: none;
+      z-index: 1;
+      color: rgba(220, 220, 220, 0.6);
+      font-weight: 700;
+      font-size: 1.8rem;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .quote {
+      position: absolute;
+      width: 40%;
+      opacity: 0;
+      animation: fadeInOut 42s infinite;
+    }
+
+    .quote:nth-child(1) { top: 5%; left: 5%; animation-delay: 0s; }
+    .quote:nth-child(2) { top: 10%; right: 5%; animation-delay: 3s; }
+    .quote:nth-child(3) { top: 20%; left: 10%; animation-delay: 6s; }
+    .quote:nth-child(4) { top: 25%; right: 10%; animation-delay: 9s; }
+    .quote:nth-child(5) { top: 35%; left: 5%; animation-delay: 12s; }
+    .quote:nth-child(6) { top: 40%; right: 5%; animation-delay: 15s; }
+    .quote:nth-child(7) { top: 50%; left: 10%; animation-delay: 18s; }
+    .quote:nth-child(8) { top: 55%; right: 10%; animation-delay: 21s; }
+    .quote:nth-child(9) { top: 65%; left: 5%; animation-delay: 24s; }
+    .quote:nth-child(10) { top: 70%; right: 5%; animation-delay: 27s; }
+    .quote:nth-child(11) { top: 80%; left: 10%; animation-delay: 30s; }
+    .quote:nth-child(12) { top: 85%; right: 10%; animation-delay: 33s; }
+    .quote:nth-child(13) { top: 90%; left: 5%; animation-delay: 36s; }
+    .quote:nth-child(14) { top: 95%; right: 5%; animation-delay: 39s; }
+
+    @keyframes fadeInOut {
+      0%, 25% { opacity: 0; }
+      30%, 70% { opacity: 0.6; }
+      75%, 100% { opacity: 0; }
+    }
+
+    /* Imagem grande estilo */
+    .hero-image {
+      display: block;
+      margin: 30px auto;
+      max-width: 100%;
+      max-height: 400px;
+      border-radius: 10px;
+      filter: brightness(0.8);
+      box-shadow: 0 0 40px rgba(139, 0, 0, 0.8);
+      border: 2px solid #8b0000;
+      object-fit: cover;
+    }
+
+    /* Introdução impactante */
+    .intro {
+      text-align: center;
+      margin-bottom: 40px;
+      font-size: 1.3rem;
+      line-height: 1.6;
+      color: #ddd;
+    }
+
+    /* Responsividade */
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 2.5rem;
+      }
+      p.subtitle {
+        font-size: 1.2rem;
+      }
+      .background-quotes {
+        font-size: 0.9rem;
+        letter-spacing: 0.5px;
+      }
+      .quote {
+        font-size: 0.9rem;
+        width: 70%;
+      }
+      .hero-image {
+        max-height: 250px;
+      }
+      .button-buy {
+        max-width: 280px;
+        font-size: 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="background-quotes">
+    <div class="quote">Fique Forte</div>
+    <div class="quote">Encare a Dor</div>
+    <div class="quote">Sem Desculpas</div>
+    <div class="quote">A Dor é Temporária</div>
+    <div class="quote">Fique Confortável com o Desconforto</div>
+    <div class="quote">Endureça sua Mente</div>
+    <div class="quote">Você Está no Controle</div>
+    <div class="quote">Trabalhe Todos os Dias</div>
+    <div class="quote">Seja Extraordinário Entre os Extraordinários</div>
+    <div class="quote">Levante e Trabalhe</div>
+    <div class="quote">Lute pela Sua Vida</div>
+    <div class="quote">Mente Sobre Matéria</div>
+    <div class="quote">Fique Forte ou Vá Para Casa</div>
+    <div class="quote">Sofra Agora e Viva como um Campeão</div>
+  </div>
+
+  <div class="container">
+    <h1>Desperte o Guerreiro</h1>
+    <p class="subtitle">Não espere a motivação chegar. Crie-a. Este eBook vai te forçar a sair da zona de conforto.</p>
+
+    <div class="intro">
+      <p>Você está cansado de promessas vazias? Este eBook não é sobre palavras bonitas. É sobre ação, disciplina e transformação. Inspirado na mentalidade implacável de quem enfrenta a dor e vence, este é o guia para você se tornar a versão mais forte de si mesmo.</p>
+    </div>
+
+    <img src="https://media.licdn.com/dms/image/v2/D5612AQG1qKXv4laaAQ/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1674609630930?e=2147483647&v=beta&t=aEmARMFWX8dYIaVGwlVaojPnoeCW4HkQ2Jj8KLt1M3c" alt="Capa do artigo sobre David Goggins" class="hero-image" />
+
+    <h2>O que você vai aprender</h2>
+    <ul>
+      <li>Como construir uma mentalidade de aço inquebrável</li>
+      <li>Técnicas práticas para manter a disciplina mesmo nos dias mais difíceis</li>
+      <li>Estratégias para transformar dor e fracasso em combustível para o sucesso</li>
+      <li>Como despertar a força interior que você nem sabia que tinha</li>
+      <li>Lições reais para viver sem desculpas</li>
+    </ul>
+
+    <h2>Por que esse eBook é diferente?</h2>
+    <p>Este não é apenas mais um livro motivacional. É um chamado à ação, escrito com a intensidade de quem já enfrentou o inferno e voltou mais forte. Cada página é um desafio para você abandonar as desculpas e tomar o controle da sua vida.</p>
+
+    <h2>Como funciona a compra</h2>
+    <ol>
+      <li>Clique no botão “Comprar Agora”</li>
+      <li>Você será direcionado para uma plataforma de pagamento segura</li>
+      <li>Após o pagamento, receba o link para download imediato do eBook</li>
+    </ol>
+
+    <h2>Depoimentos</h2>
+    <div class="testimonial">"Este eBook me fez perceber que eu estava me sabotando. Agora, enfrento cada dia com propósito." – Carlos R.</div>
+    <div class="testimonial">"A abordagem direta e sem rodeios mudou minha rotina. É como ter um treinador gritando no meu ouvido!" – Mariana T.</div>
+
+    <a href="https://link-da-plataforma-de-pagamento.com" target="_blank" class="button-buy">Comprar Agora</a>
+
+    <div class="faq">
+      <h2>Perguntas Frequentes</h2>
+      <p><strong>Em que formato o eBook é entregue?</strong><br />O eBook é entregue em formato PDF, compatível com todos os dispositivos.</p>
+      <p><strong>Quando recebo o eBook?</strong><br />O link para download é enviado imediatamente após a confirmação do pagamento.</p>
+    </div>
+  </div>
+</body>
+</html>
