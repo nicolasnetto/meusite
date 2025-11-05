@@ -28,7 +28,7 @@
       max-width: 1000px;
       margin: 0 auto;
       position: relative;
-      z-index: 2;
+      z-index: 10; /* força o conteúdo a ficar acima do fundo */
     }
 
     h1 {
@@ -101,7 +101,7 @@
       box-shadow: 0 0 20px rgba(139, 0, 0, 0.7);
       animation: pulseGlow 2s ease-in-out infinite;
       position: relative;
-      z-index: 9999; /* garante que o botão é clicável */
+      z-index: 999; /* garante clique */
     }
 
     @keyframes pulseGlow {
@@ -137,12 +137,14 @@
       font-size: 1.1rem;
     }
 
-    /* Frases impactantes de fundo */
+    /* Fundo com frases (não interfere mais no clique) */
     .background-quotes {
       position: fixed;
       width: 100%;
       height: 100%;
-      pointer-events: none;
+      top: 0;
+      left: 0;
+      pointer-events: none !important; /* impede captura de clique */
       user-select: none;
       z-index: 1;
       color: rgba(220, 220, 220, 0.6);
@@ -202,27 +204,12 @@
     }
 
     @media (max-width: 600px) {
-      h1 {
-        font-size: 2.5rem;
-      }
-      p.subtitle {
-        font-size: 1.2rem;
-      }
-      .background-quotes {
-        font-size: 0.9rem;
-        letter-spacing: 0.5px;
-      }
-      .quote {
-        font-size: 0.9rem;
-        width: 70%;
-      }
-      .hero-image {
-        max-height: 250px;
-      }
-      .button-buy {
-        max-width: 280px;
-        font-size: 1.2rem;
-      }
+      h1 { font-size: 2.5rem; }
+      p.subtitle { font-size: 1.2rem; }
+      .background-quotes { font-size: 0.9rem; }
+      .quote { font-size: 0.9rem; width: 70%; }
+      .hero-image { max-height: 250px; }
+      .button-buy { max-width: 280px; font-size: 1.2rem; }
     }
   </style>
 </head>
