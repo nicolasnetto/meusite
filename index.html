@@ -6,12 +6,7 @@
   <title>Desperte o Guerreiro - eBook Transformador</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@700&display=swap" rel="stylesheet">
   <style>
-    /* Reset básico */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       font-family: 'Roboto Condensed', 'Arial', sans-serif;
@@ -23,13 +18,7 @@
       padding: 40px 20px;
     }
 
-    /* Container principal */
-    .container {
-      max-width: 1000px;
-      margin: 0 auto;
-      position: relative;
-      z-index: 10; /* força o conteúdo a ficar acima do fundo */
-    }
+    .container { max-width: 1000px; margin: 0 auto; position: relative; z-index: 2; }
 
     h1 {
       font-size: 4rem;
@@ -77,11 +66,8 @@
       color: #ddd;
     }
 
-    ul li, ol li {
-      margin-bottom: 12px;
-    }
+    ul li, ol li { margin-bottom: 12px; }
 
-    /* Botão estiloso */
     .button-buy {
       display: block;
       width: 100%;
@@ -100,8 +86,6 @@
       text-decoration: none;
       box-shadow: 0 0 20px rgba(139, 0, 0, 0.7);
       animation: pulseGlow 2s ease-in-out infinite;
-      position: relative;
-      z-index: 999; /* garante clique */
     }
 
     @keyframes pulseGlow {
@@ -114,7 +98,6 @@
       transform: scale(1.05);
     }
 
-    /* Depoimentos */
     .testimonial {
       font-style: italic;
       margin: 20px 0;
@@ -125,26 +108,14 @@
       font-size: 1.1rem;
     }
 
-    /* Perguntas frequentes */
-    .faq p strong {
-      color: #fff;
-      font-weight: 700;
-    }
+    .faq p strong { color: #fff; font-weight: 700; }
+    .faq p { margin-bottom: 15px; color: #ccc; font-size: 1.1rem; }
 
-    .faq p {
-      margin-bottom: 15px;
-      color: #ccc;
-      font-size: 1.1rem;
-    }
-
-    /* Fundo com frases (não interfere mais no clique) */
     .background-quotes {
       position: fixed;
       width: 100%;
       height: 100%;
-      top: 0;
-      left: 0;
-      pointer-events: none !important; /* impede captura de clique */
+      pointer-events: none;
       user-select: none;
       z-index: 1;
       color: rgba(220, 220, 220, 0.6);
@@ -172,10 +143,6 @@
     .quote:nth-child(8) { top: 55%; right: 10%; animation-delay: 21s; }
     .quote:nth-child(9) { top: 65%; left: 5%; animation-delay: 24s; }
     .quote:nth-child(10) { top: 70%; right: 5%; animation-delay: 27s; }
-    .quote:nth-child(11) { top: 80%; left: 10%; animation-delay: 30s; }
-    .quote:nth-child(12) { top: 85%; right: 10%; animation-delay: 33s; }
-    .quote:nth-child(13) { top: 90%; left: 5%; animation-delay: 36s; }
-    .quote:nth-child(14) { top: 95%; right: 5%; animation-delay: 39s; }
 
     @keyframes fadeInOut {
       0%, 25% { opacity: 0; }
@@ -219,16 +186,9 @@
     <div class="quote">Encare a Dor</div>
     <div class="quote">Sem Desculpas</div>
     <div class="quote">A Dor é Temporária</div>
-    <div class="quote">Fique Confortável com o Desconforto</div>
     <div class="quote">Endureça sua Mente</div>
-    <div class="quote">Você Está no Controle</div>
     <div class="quote">Trabalhe Todos os Dias</div>
-    <div class="quote">Seja Extraordinário Entre os Extraordinários</div>
     <div class="quote">Levante e Trabalhe</div>
-    <div class="quote">Lute pela Sua Vida</div>
-    <div class="quote">Mente Sobre Matéria</div>
-    <div class="quote">Fique Forte ou Vá Para Casa</div>
-    <div class="quote">Sofra Agora e Viva como um Campeão</div>
   </div>
 
   <div class="container">
@@ -256,7 +216,7 @@
     <h2>Como funciona a compra</h2>
     <ol>
       <li>Clique no botão “Comprar Agora”</li>
-      <li>Você será direcionado para uma plataforma de pagamento segura</li>
+      <li>Você será redirecionado para a página de compra segura</li>
       <li>Após o pagamento, receba o link para download imediato do eBook</li>
     </ol>
 
@@ -264,13 +224,7 @@
     <div class="testimonial">"Este eBook me fez perceber que eu estava me sabotando. Agora, enfrento cada dia com propósito." – Carlos R.</div>
     <div class="testimonial">"A abordagem direta e sem rodeios mudou minha rotina. É como ter um treinador gritando no meu ouvido!" – Mariana T.</div>
 
-  <a href="https://go.hotmart.com/N100907263N" 
-   target="_blank" 
-   rel="noopener noreferrer" 
-   class="button-buy" 
-   onclick="event.stopPropagation(); event.preventDefault(); window.open(this.href, '_blank');">
-  Comprar Agora
-</a>
+    <a href="/comprar.html" class="button-buy">Comprar Agora</a>
 
     <div class="faq">
       <h2>Perguntas Frequentes</h2>
