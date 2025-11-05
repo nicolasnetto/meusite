@@ -224,7 +224,11 @@
     <div class="testimonial">"Este eBook me fez perceber que eu estava me sabotando. Agora, enfrento cada dia com propósito." – Carlos R.</div>
     <div class="testimonial">"A abordagem direta e sem rodeios mudou minha rotina. É como ter um treinador gritando no meu ouvido!" – Mariana T.</div>
 
-    <a href="/comprar.html" class="button-buy">Comprar Agora</a>
+    <!-- ✅ BOTÃO PERSONALIZADO COM FUNCIONALIDADE HOTMART -->
+    <a href="https://pay.hotmart.com/N100907263N?checkoutMode=2"
+       class="button-buy hotmart-fb hotmart__button-checkout">
+      Comprar Agora
+    </a>
 
     <div class="faq">
       <h2>Perguntas Frequentes</h2>
@@ -232,19 +236,20 @@
       <p><strong>Quando recebo o eBook?</strong><br>O link para download é enviado imediatamente após a confirmação do pagamento.</p>
     </div>
   </div>
+
+  <!-- ✅ SCRIPT HOTMART (mantém o pop-up ativo no seu botão) -->
+  <script type="text/javascript">
+    function importHotmart(){ 
+      var imported = document.createElement('script'); 
+      imported.src = 'https://static.hotmart.com/checkout/widget.min.js'; 
+      document.head.appendChild(imported); 
+      var link = document.createElement('link'); 
+      link.rel = 'stylesheet'; 
+      link.type = 'text/css'; 
+      link.href = 'https://static.hotmart.com/css/hotmart-fb.min.css'; 
+      document.head.appendChild(link); 
+    } 
+    importHotmart(); 
+  </script>
 </body>
 </html>
-
-<script type="text/javascript">
-	function importHotmart(){ 
- 		var imported = document.createElement('script'); 
- 		imported.src = 'https://static.hotmart.com/checkout/widget.min.js'; 
- 		document.head.appendChild(imported); 
-		var link = document.createElement('link'); 
-		link.rel = 'stylesheet'; 
-		link.type = 'text/css'; 
-		link.href = 'https://static.hotmart.com/css/hotmart-fb.min.css'; 
-		document.head.appendChild(link);	} 
- 	importHotmart(); 
- </script> 
- <a onclick="return false;" href="https://pay.hotmart.com/N100907263N?checkoutMode=2" class="hotmart-fb hotmart__button-checkout"><img src='https://static.hotmart.com/img/btn-buy-green.png'></a> 
